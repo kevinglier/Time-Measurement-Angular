@@ -1,0 +1,29 @@
+<table class="table table-bordered">
+  <thead class="thead-light">
+    <tr>
+      <th style="width: 12%">Start-Time</th>
+      <th style="width: 12%">Duration</th>
+      <th>Note</th>
+      <th style="width: 1%"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let entry of timeTableEntries">
+      <td>{{entry.getTimeFormatted()}}</td>
+      <td>{{entry.getDurationFormatted()}}</td>
+      <td>{{entry.getTextFormatted()}}</td>
+      <td class="note-options">
+        <button type="button" class="btn btn-sm btn-warning" (click)="handleEditNoteButtonClick($event)">?</button>
+        <button type="button" class="btn btn-sm btn-danger" (click)="handleRemoveNoteButtonClick($event)">-</button>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td><input type="text" data-bind="value: text"></td>
+      <td>
+        <button type="button" class="btn btn-sm btn-success" (click)="handleAddNoteButtonClick($event)">+</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

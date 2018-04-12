@@ -1,1 +1,74 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+    box-sizing: border-box;
+    font-family: "Trebuchet MS", sans-serif;
+}
+
+h1 {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.countdown-timer-display {
+    font-size: 8em;
+    text-align: center;
+}
+	.countdown-timer-display input {
+    border: none;
+		padding: none;
+		display: inline;
+		width: auto;
+	}
+
+.countdown-timer-settings {
+	margin-top: 25px;
+}
+	
+.countdown-timer-buttons {
+    text-align: center;
+}
+
+.countdown-timer-button {
+    font-size: 1.25em;
+    padding: 10px;
+    border-radius: 5px;   
+}
+
+.countdown-timer-button-start{
+    background-color: green;
+    color: white;
+}
+
+.countdown-timer-button-stop{
+    background-color: red;
+    color: white;
+}
+
+.countdown-timer-button-reset{
+   background-color: yellow;
+}
+
+.totalPomodoroCount {
+    width: 100%;
+    padding: 5px;
+    text-align: center;
+}
+
+
+.notes-input input[type="text"] {
+    font-size : 2em;
+    width: 70%;
+    float:left;
+}
+
+.notes-input input[type="button"] {
+    font-size: 2em;
+    width:30%;
+    float:left;
+}
+
+.note-options {
+	overflow-x:auto;
+	overflow-y:hidden;
+	white-space: nowrap;
+}

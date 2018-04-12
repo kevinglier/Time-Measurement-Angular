@@ -1,0 +1,9 @@
+<div class="countdown-timer-display">
+  <span>{{ remainingTimeString | async }}</span>
+</div>
+
+<div class="countdown-timer-buttons">
+  <button type="button" class="btn btn-lg btn-success" type="button" (click)="handleStartClick($evemt)">Start</button>
+  <button type="button" class="btn btn-lg btn-warning" type="button" (click)="handlePauseClick($evemt)">Pause</button>
+  <button type="button" class="btn btn-lg btn-danger" type="button" (click)="handleStopClick($event)">Reset</button>
+</div>

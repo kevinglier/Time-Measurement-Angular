@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-md-7">
+    <time-table (items)="timeTableEntries"></time-table>
+  </div>
+  <div class="col-md-5">
+    
+    <div class="card box-shadow">
+				<div class="card-header">
+					<h4 class="my-0 font-weight-normal">Start a Timer</h4>
+				</div>
+				<div class="card-body">
+					<timer [type]="settings.timer.type"
+								 (timerEnded)="timerStopped"
+                 (timerStartedByUser)="timerStarted"
+                 (timerStoppedByUser)="timerStopped"
+                 (timerPausedByUser)="timerPaused"
+                 (timerTick)="timerTick"></timer>
+				</div>
+			</div>
+
+			<div class="card box-shadow countdown-timer-settings">
+				<div class="card-header">
+					<h4 class="my-0 font-weight-normal">Settings</h4>
+				</div>
+				<div class="card-body">
+						<settings [(settings)]="settings"></settings>
+				</div>
+			</div>
+  </div>
+</div>
