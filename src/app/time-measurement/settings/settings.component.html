@@ -1,24 +1,29 @@
 <div>
-  Type:
-  <select [ngModel]="settings.timer.type" (ngModelChange)="timerTypeChange($event)">
-    <option *ngFor="let option of timerTypeOptions" [value]="option.value">{{ option.caption }}</option>
-  </select>
+    Type:
+    <select [ngModel]="settings.timer.type" (ngModelChange)="timerTypeChange($event)">
+        <option *ngFor="let option of timerTypeOptions" [value]="option.value">{{ option.caption }}</option>
+    </select>
 </div>
 <div>
-  Time Unit:
-  <select #timerUnit [ngModel]="settings.timer.unit" (ngModelChange)="timerUnitChange($event)" [attr.disabled]="settings.timer.type != 0 ? 'disabled' : null">
-    <option *ngFor="let option of timerUnitOptions" [value]="option.value">{{ option.caption }}</option>
-  </select>
+    Time Unit:
+    <select #timerUnit [ngModel]="settings.timer.unit" (ngModelChange)="timerUnitChange($event)"
+            [attr.disabled]="settings.timer.type != 0 ? 'disabled' : null">
+        <option *ngFor="let option of timerUnitOptions" [value]="option.value">{{ option.caption }}</option>
+    </select>
 </div>
 <div data-bind="if: timerTimeUnit() == 'any'">
-  Timer Value:
-  <select [(ngModel)]="timerCustomValueMinutes" [attr.disabled]="timerUnit.disabled || settings.timer.unit != 2 ? 'disabled' : null">
-    <option *ngFor="let minute of timerCustomValueMinutesValues" [value]="minute">{{ minute }}</option>
-  </select>
-  <select [(ngModel)]="timerCustomValueSeconds" [attr.disabled]="timerUnit.disabled || settings.timer.unit != 2 ? 'disabled' : null">
-    <option *ngFor="let second of timerCustomValueSecondsValues" [value]="second">{{ second }}</option>
-  </select>
+    Timer Value:
+    <select [(ngModel)]="timerCustomValueMinutes"
+            [attr.disabled]="timerUnit.disabled || settings.timer.unit != 2 ? 'disabled' : null">
+        <option *ngFor="let minute of timerCustomValueMinutesValues" [value]="minute">{{ minute }}</option>
+    </select>
+    :
+    <select [(ngModel)]="timerCustomValueSeconds"
+            [attr.disabled]="timerUnit.disabled || settings.timer.unit != 2 ? 'disabled' : null">
+        <option *ngFor="let second of timerCustomValueSecondsValues" [value]="second">{{ second }}</option>
+    </select>
 </div>
 <div>
-  <button type="button" class="btn btn-lg btn-default" type="button" data-bind="click: soundTestClick">Sound-Test</button>
+    <button type="button" class="btn btn-lg btn-default" type="button" data-bind="click: soundTestClick">Sound-Test
+    </button>
 </div>
