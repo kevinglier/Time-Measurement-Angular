@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TimeMeasurementComponent } from './time-measurement.component';
+import { TmTimeTableComponent } from './tm-time-table.component';
 
-describe('TimeMeasurementComponent', () => {
-  let component: TimeMeasurementComponent;
-  let fixture: ComponentFixture<TimeMeasurementComponent>;
+describe('TmTimeTableComponent', () => {
+  let component: TmTimeTableComponent;
+  let fixture: ComponentFixture<TmTimeTableComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TimeMeasurementComponent ]
+      declarations: [ TmTimeTableComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TimeMeasurementComponent);
+    fixture = TestBed.createComponent(TmTimeTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-7">
-        <time-table (items)="timeTableEntries"></time-table>
+        <tm-time-table (items)="timeTableEntries"></tm-time-table>
     </div>
     <div class="col-md-5">
 
@@ -9,13 +9,13 @@
                 <h4 class="my-0 font-weight-normal">Start a Timer</h4>
             </div>
             <div class="card-body">
-                <timer [type]="settings.timer.type"
+                <tm-timer [type]="settings.timer.type"
                        [startValue]="timerStartValue"
                        (timerEnded)="timerStopped($event)"
                        (timerStartedByUser)="timerStarted($event)"
                        (timerStoppedByUser)="timerStopped($event)"
                        (timerPausedByUser)="timerPaused($event)"
-                       (timerTick)="timerTick($event)"></timer>
+                       (timerTick)="timerTick($event)"></tm-timer>
             </div>
         </div>
 
@@ -24,7 +24,7 @@
                 <h4 class="my-0 font-weight-normal">Settings</h4>
             </div>
             <div class="card-body">
-                <settings [(settings)]="settings"></settings>
+                <tm-settings [(settings)]="settings"></tm-settings>
             </div>
         </div>
     </div>

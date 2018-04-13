@@ -8,10 +8,10 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let entry of timeTableEntries">
-      <td>{{entry.getTimeFormatted()}}</td>
-      <td>{{entry.getDurationFormatted()}}</td>
-      <td>{{entry.getTextFormatted()}}</td>
+    <tr *ngFor="let entry of (timeTableEntries | async)">
+      <td>{{entry.time | tmTimeTableTime}}</td>
+      <td>{{entry.duration | tmTimeTableDuration}}</td>
+      <td>{{entry.text}}</td>
       <td class="note-options">
         <button type="button" class="btn btn-sm btn-warning" (click)="handleEditNoteButtonClick($event)">?</button>
         <button type="button" class="btn btn-sm btn-danger" (click)="handleRemoveNoteButtonClick($event)">-</button>

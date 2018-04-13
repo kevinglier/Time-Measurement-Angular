@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { TimerType, TimerUnit } from '../settings';
+import {Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {TimerType, TimerUnit} from '../settings';
 
 
 export enum TimerState {
@@ -10,11 +10,11 @@ export enum TimerState {
 }
 
 @Component({
-  selector: 'timer',
-  templateUrl: './timer.component.html',
-  styleUrls: ['./timer.component.css']
+  selector: 'tm-timer',
+  templateUrl: './tm-timer.component.html',
+  styleUrls: ['./tm-timer.component.css']
 })
-export class TimerComponent implements OnInit, OnChanges {
+export class TmTimerComponent implements OnInit, OnChanges {
 
   @Output() timerEnded = new EventEmitter<any>();
   @Output() timerStartedByUser = new EventEmitter<any>();
@@ -28,6 +28,7 @@ export class TimerComponent implements OnInit, OnChanges {
     this._type = value;
     this.stop();
   }
+
   get type() {
     return this._type;
   }
@@ -39,15 +40,17 @@ export class TimerComponent implements OnInit, OnChanges {
     this.updateRemainingTimeString();
     this.stop();
   }
+
   get startValue() {
     return this._startValue;
   }
-  
+
   private _remaining = 0;
   set remaining(value) {
     this._remaining = value;
     this.updateRemainingTimeString();
   }
+
   get remaining() {
     return this._remaining;
   }
@@ -55,10 +58,12 @@ export class TimerComponent implements OnInit, OnChanges {
   remainingTimeString = new BehaviorSubject<string>('00:00');
 
   state: TimerState = TimerState.stopped;
-  
+
 
   private _timerHandle = null;
-  constructor() { }
+
+  constructor() {
+  }
 
   ngOnInit() {
     this.startValue = 25 * 60;
@@ -78,14 +83,14 @@ export class TimerComponent implements OnInit, OnChanges {
       this.timerStartedByUser.emit(null);
     }
   }
-  
+
   handlePauseClick(event: Event) {
     if (this.state === TimerState.running) {
       this.pause();
       this.timerPausedByUser.emit(null);
     }
   }
-  
+
   handleStopClick(event: Event) {
     this.stop();
     this.timerStoppedByUser.emit(null);
@@ -94,7 +99,9 @@ export class TimerComponent implements OnInit, OnChanges {
   resume() {
     this.state = TimerState.running;
 
-    this._timerHandle = window.setInterval(() => { this.tick(); }, 1000);
+    this._timerHandle = window.setInterval(() => {
+      this.tick();
+    }, 1000);
   }
 
   pause() {
@@ -106,14 +113,14 @@ export class TimerComponent implements OnInit, OnChanges {
   stop() {
     this.state = TimerState.stopped;
     this.remaining = this.type == TimerType.timer ? this.startValue : 0;
-    
+
     this.updateRemainingTimeString();
 
     window.clearInterval(this._timerHandle);
   }
 
   tick() {
-    switch(+this.type) {
+    switch (+this.type) {
       default:
       case TimerType.timer:
         this.remaining -= 1;

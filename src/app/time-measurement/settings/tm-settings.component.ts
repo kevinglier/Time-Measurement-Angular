@@ -2,11 +2,11 @@ import {Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges
 import {TimerType, TimerUnit, TimeMeasurementSettings} from '../settings';
 
 @Component({
-    selector: 'settings',
-    templateUrl: './settings.component.html',
-    styleUrls: ['./settings.component.css']
+    selector: 'tm-settings',
+    templateUrl: './tm-settings.component.html',
+    styleUrls: ['./tm-settings.component.css']
 })
-export class SettingsComponent implements OnInit, OnChanges {
+export class TmSettingsComponent implements OnInit, OnChanges {
 
     timerTypeOptions = [
         {caption: 'Timer', value: TimerType.timer},

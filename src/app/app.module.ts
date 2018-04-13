@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
-import { TimeMeasurementModule } from './time-measurement/time-measurement.module';
+import { TmTimeMeasurementModule } from './time-measurement/tm-time-measurement.module';
 
 
 @NgModule({
@@ -12,7 +12,7 @@ import { TimeMeasurementModule } from './time-measurement/time-measurement.modul
   ],
   imports: [
     BrowserModule,
-    TimeMeasurementModule
+    TmTimeMeasurementModule
   ],
   providers: [],
   bootstrap: [AppComponent]
