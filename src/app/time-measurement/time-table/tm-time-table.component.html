@@ -17,10 +17,10 @@
         <button type="button" class="btn btn-sm btn-danger" (click)="handleRemoveNoteButtonClick($event)">-</button>
       </td>
     </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td><input type="text" data-bind="value: text"></td>
+    <tr [formGroup]="formNewEntry">
+      <td><input type="datetime-local" formControlName="time" [(ngModel)]="newEntry.time"></td>
+      <td><input type="number" formControlName="duration" [(ngModel)]="newEntry.duration"></td>
+      <td><input type="text" formControlName="text" [(ngModel)]="newEntry.text"></td>
       <td>
         <button type="button" class="btn btn-sm btn-success" (click)="handleAddNoteButtonClick($event)">+</button>
       </td>

@@ -9,7 +9,10 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 export class TmTimeMeasurementService {
 
   private timeTableEntriesSubject: BehaviorSubject<TimeTableEntry[]> = new BehaviorSubject<TimeTableEntry[]>([]);
-  public timeTableEntries: Observable<TimeTableEntry[]> = this.timeTableEntriesSubject.asObservable();
+  public timeTableEntries$: Observable<TimeTableEntry[]> = this.timeTableEntriesSubject.asObservable();
+  public get timeTableEntries() {
+    return this.timeTableEntriesSubject.getValue();
+  }
 
   constructor() {
   }
