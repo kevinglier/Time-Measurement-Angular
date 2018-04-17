@@ -5,6 +5,7 @@
   },
   "apps": [
     {
+      "baseHref" : "Time-Measurement-Angular/dist/",
       "root": "src",
       "outDir": "dist",
       "assets": [
