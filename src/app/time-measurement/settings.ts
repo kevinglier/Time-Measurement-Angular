@@ -2,26 +2,26 @@
 export interface TimeMeasurementSettings {
     /** Timer specific settings */
     timer: {
-        /** Type of the timer */
+        /** Type of the tm-timer */
         type: TimerType,
-        /** Preset timer unit */
+        /** Preset tm-timer unit */
         unit: TimerUnit,
-        /** If the timer unit it "custom", the value in seconds that will be used as the timers start value. */
+        /** If the tm-timer unit it "custom", the value in seconds that will be used as the timers start value. */
         customValue: number
     },
-    /** The URL to the soundfile that will be played, when the timer is done. */
+    /** The URL to the soundfile that will be played, when the tm-timer is done. */
     soundFile: string
 }
 
 /** The timers type */
 export enum TimerType {
-    /** Normal timer counting from a set value down to zero. */
+    /** Normal tm-timer counting from a set value down to zero. */
     timer = 0,
-    /** A never ending timer, that counts from zero upwards, that can be paused and stopped by the user. */
+    /** A never ending tm-timer, that counts from zero upwards, that can be paused and stopped by the user. */
     counter = 1
 }
 
-/** The timer unit, that is the start value of the timer */
+/** The tm-timer unit, that is the start value of the tm-timer */
 export enum TimerUnit {
     /** A pomodoro are 25 minutes */
     pomodoro,
