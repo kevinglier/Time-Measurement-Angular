@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TmTimeMeasurementService} from '../tm-time-measurement.service';
 import {TimeTableEntry} from '../time-table-entry';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -11,7 +11,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 })
 export class TmTimeTableComponent implements OnInit {
 
-  @Input() timeTableEntries = this.timeMeasurementService.timeTableEntries$;
+  timeTableEntries = this.timeMeasurementService.timeTableEntries$;
 
   newEntry: TimeTableEntry;
   formNewEntry: FormGroup;
