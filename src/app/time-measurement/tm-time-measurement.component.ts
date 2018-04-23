@@ -49,7 +49,8 @@ export class TmTimeMeasurementComponent implements OnInit {
   timerStarted(event) {
     this.currentTimerEntry = this.timeMeasurementService.addTimeTableEntry(<TimeTableEntry>{
       time: new Date(),
-      duration: null
+      duration: null,
+      isSystemEntry: true
     });
   }
 
@@ -57,11 +58,12 @@ export class TmTimeMeasurementComponent implements OnInit {
     const newEntry = <TimeTableEntry>{
       time: this.currentTimerEntry.time,
       duration: Math.floor((new Date().valueOf() - this.currentTimerEntry.time.valueOf()) / 1000),
-      text: 'Finished at ' + new Date()
+      text: 'Finished',
+      isSystemEntry: false
     };
-    console.log(this.currentTimerEntry);
+
     if (!this.timeMeasurementService.editTimeTableEntry(this.currentTimerEntry, newEntry)) {
-      console.error('Etwas lief schief');
+      console.error('Something went wrong.');
     }
 
     this.currentTimerEntry = null;

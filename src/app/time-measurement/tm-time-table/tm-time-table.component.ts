@@ -1,86 +1,178 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {TmTimeMeasurementService} from '../tm-time-measurement.service';
 import {TimeTableEntry} from '../time-table-entry';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 
 @Component({
-    selector: 'tm-time-table',
-    templateUrl: './tm-time-table.component.html',
-    styleUrls: ['./tm-time-table.component.css']
+  selector: 'tm-time-table',
+  templateUrl: './tm-time-table.component.html',
+  styleUrls: ['./tm-time-table.component.css']
 })
 export class TmTimeTableComponent implements OnInit {
 
-    timeTableEntries = this.timeMeasurementService.timeTableEntries$;
+  timeTableEntries = this.timeMeasurementService.timeTableEntries$;
 
-    formNewEntry: FormGroup;
+  formNewEntry: FormGroup;
+  formEditEntry: FormGroup;
 
-    constructor(
-        private timeMeasurementService: TmTimeMeasurementService,
-        private formBuilder: FormBuilder
-    ) {
-        this.resetNewEntry();
+  editEntry: TimeTableEntry;
+
+  constructor(
+    private timeMeasurementService: TmTimeMeasurementService,
+    private formBuilder: FormBuilder
+  ) {
+  }
+
+  ngOnInit() {
+    this.resetNewForm();
+    this.resetEditForm();
+  }
+
+  /**
+   * ClickEvent-Handler for the Add-Button
+   * @param {Event} event
+   */
+  handleAddNoteButtonClick(event: Event): void {
+
+    const entry = this.getEntryFromForm(this.formNewEntry);
+
+    if (entry) {
+      this.add(entry);
+    }
+  }
+
+  /**
+   * ClickEvent-Handler for the Edit-Save-Button
+   * @param {Event} event
+   */
+  handleSaveNoteButtonClick(event: Event): void {
+    if (!this.editEntry) {
+      return;
     }
 
-    ngOnInit() {
-        this.formNewEntry = this.formBuilder.group({
-            time: new FormControl(new Date().getHours() + ':' + new Date().getMinutes(), [Validators.required]),
-            duration: new FormControl('00:15', [Validators.required]),
-            text: new FormControl('', [Validators.required])
-        });
+    const editedEntry = this.getEntryFromForm(this.formEditEntry, this.editEntry);
+
+    if (editedEntry) {
+      this.edit(this.editEntry, editedEntry);
+    }
+  }
+
+  /**
+   * ClickEvent-Handler for the Edit-Button
+   * @param {Event} event
+   * @param {TimeTableEntry} entry
+   */
+  handleEditNoteButtonClick(event: Event, entry: TimeTableEntry): void {
+    this.editEntry = this.editEntry === entry ? null : entry;
+    this.resetEditForm();
+  }
+
+  /**
+   * ClickEvent-Handler for the Remove-Button
+   * @param {Event} event
+   * @param {TimeTableEntry} entry
+   */
+  handleRemoveNoteButtonClick(event: Event, entry: TimeTableEntry): void {
+
+    if (confirm('Do you really want to delete this entry?')) {
+      this.remove(entry);
+    }
+  }
+
+  /**
+   * Created an new time table entry from an FormGroup.
+   * @param {FormGroup} form The FormGroup
+   * @param {TimeTableEntry} entry An entry that would be edited.
+   * @returns {TimeTableEntry}
+   */
+  private getEntryFromForm(form: FormGroup, entry?: TimeTableEntry): TimeTableEntry {
+    const time = mapTimeToArray(form.get('time').value);
+    const duration = mapTimeToArray(form.get('duration').value);
+
+    const timeDate = new Date();
+    timeDate.setSeconds(0);
+    timeDate.setHours(time[0]);
+    timeDate.setMinutes(time[1]);
+
+    entry = entry ? entry : new TimeTableEntry();
+    entry.time = timeDate;
+    entry.duration = (duration[0] * 60) + duration[1];
+    entry.text = form.get('text').value;
+
+    return entry;
+  }
+
+  /**
+   * Resets the FormGroup for new entry
+   */
+  private resetNewForm(): void {
+    this.formNewEntry = this.formBuilder.group({
+      time: new FormControl(
+        ('0' + new Date().getHours()).slice(-2) + ':' + ('0' + new Date().getMinutes()).slice(-2),
+        [Validators.required]
+      ),
+      duration: new FormControl('00:15', [Validators.required]),
+      text: new FormControl('', [Validators.required])
+    });
+  }
+
+  /**
+   * Resets the FormGroup for editible entry
+   */
+  private resetEditForm(): void {
+    if (!this.editEntry) {
+      this.formEditEntry = this.formBuilder.group({});
+      this.formEditEntry.disable();
+      return;
     }
 
-    handleAddNoteButtonClick(event) {
-
-        let timeSeconds = mapTimeToSeconds(this.formNewEntry.get('time').value);
-        let durationSeconds = mapTimeToSeconds(this.formNewEntry.get('duration').value);
-
-        let newEntry: TimeTableEntry = {
-            time: timeSeconds,
-            duration: durationSeconds,
-            text: this.formNewEntry.get('text').value
-        };
-
-        this.add(newEntry);
-    }
-
-    handleEditNoteButtonClick(event) {
-
-    }
-
-    handleRemoveNoteButtonClick(event) {
+    this.formEditEntry = this.formBuilder.group({
+      time: new FormControl(
+        ('0' + this.editEntry.time.getHours()).slice(-2) + ':' + ('0' + this.editEntry.time.getMinutes()).slice(-2),
+        [Validators.required]
+      ),
+      duration: new FormControl(
+        ('0' + Math.floor(this.editEntry.duration / 60)).slice(-2) + ':' + ('0' + (this.editEntry.duration % 60)).slice(-2),
+        [Validators.required]
+      ),
+      text: new FormControl(this.editEntry.text, [Validators.required])
+    });
+    this.formEditEntry.enable();
+  }
 
 
-    }
+  private add(entry: TimeTableEntry): void {
+    this.timeMeasurementService.addTimeTableEntry(entry);
+    this.resetNewForm();
+  }
 
-    private resetNewEntry() {
-        this.ngOnInit();
-    }
+  private remove(entry: TimeTableEntry): void {
+    this.timeMeasurementService.removeTimeTableEntry(entry);
+  }
 
-
-    add(entry) {
-        this.timeMeasurementService.addTimeTableEntry(entry);
-    }
-
-    remove(entry) {
-        this.timeMeasurementService.removeTimeTableEntry(entry);
-    }
-
-    edit(oldEntry, newEntry) {
-        this.timeMeasurementService.editTimeTableEntry(oldEntry, newEntry);
-    }
+  private edit(oldEntry: TimeTableEntry, newEntry: TimeTableEntry): void {
+    this.timeMeasurementService.editTimeTableEntry(oldEntry, newEntry);
+    this.editEntry = null;
+    this.resetEditForm();
+  }
 }
 
+/**
+ * Maps a time string(HH:SS) to an array with to number-elements.
+ * @param timeString Time-String with the format HH:SS
+ * @returns {number[]} Array with two elements, first Minutes, second Seconds
+ */
+function mapTimeToArray(timeString): number[] {
+  if (timeString) {
 
-function mapTimeToSeconds(v) {
-    if (v) {
-
-        let splitted = v.split(':');
-        if (!splitted || splitted.length != 2)
-            return null;
-
-        return (splitted[0] * 60) + splitted[1];
+    const splitted: number[] = timeString.split(':');
+    if (!splitted || splitted.length !== 2) {
+      return null;
     }
 
-    return null;
+    return splitted;
+  }
+
+  return null;
 }
