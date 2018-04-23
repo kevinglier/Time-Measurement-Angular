@@ -14,12 +14,12 @@ export class TmSettingsComponent implements OnInit, OnChanges {
   timerTypeOptions = [
     {caption: 'Timer', value: TimerType.timer},
     {caption: 'Counter', value: TimerType.counter},
-  ]
+  ];
   timerUnitOptions = [
     {caption: 'Pomodoro', value: TimerUnit.pomodoro},
     {caption: 'Hour', value: TimerUnit.hour},
     {caption: 'Custom', value: TimerUnit.custom},
-  ]
+  ];
   timerCustomValueMinutesValues = (() => {
     const x = [];
     for (let i = 0; i <= 120; i += 5) {
@@ -35,7 +35,7 @@ export class TmSettingsComponent implements OnInit, OnChanges {
     return x;
   })();
 
-  @Input() settings;
+  @Input() settings: TimeMeasurementSettings;
   @Output() settingsChange = new EventEmitter<TimeMeasurementSettings>();
 
   constructor() {
@@ -46,8 +46,8 @@ export class TmSettingsComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['settings']) {
-      const m = this.settings.timer.customValue ? parseInt((this.settings.timer.customValue / 60) + '', 10) : 15;
-      const s = this.settings.timer.customValue ? this.settings.timer.customValue % 60 : 0;
+      const m: number = this.settings.timer.customValue ? Math.floor(this.settings.timer.customValue / 60) : 15;
+      const s: number = this.settings.timer.customValue ? this.settings.timer.customValue % 60 : 0;
       this.timerCustomValueMinutes = m;
       this.timerCustomValueSeconds = s;
     }
@@ -65,7 +65,7 @@ export class TmSettingsComponent implements OnInit, OnChanges {
 
 
   get timerCustomValueMinutes() {
-    return this._timerCustomValueMinutes;
+    return +this._timerCustomValueMinutes;
   }
 
   set timerCustomValueMinutes(minutes) {
@@ -75,7 +75,7 @@ export class TmSettingsComponent implements OnInit, OnChanges {
   }
 
   get timerCustomValueSeconds() {
-    return this._timerCustomValueSeconds;
+    return +this._timerCustomValueSeconds;
   }
 
   set timerCustomValueSeconds(seconds) {

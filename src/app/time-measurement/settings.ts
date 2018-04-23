@@ -8,9 +8,9 @@ export interface TimeMeasurementSettings {
         unit: TimerUnit,
         /** If the tm-timer unit it "custom", the value in seconds that will be used as the timers start value. */
         customValue: number
-    },
+    };
     /** The URL to the soundfile that will be played, when the tm-timer is done. */
-    soundFile: string
+    soundFile: string;
 }
 
 /** The timers type */
