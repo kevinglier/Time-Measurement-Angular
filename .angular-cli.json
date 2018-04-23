@@ -9,8 +9,10 @@
       "root": "src",
       "outDir": "dist",
       "assets": [
-        "assets",
-        "favicon.ico"
+        { "glob": "favicon.ico", "input": "./", "output": "./" },
+        { "glob": "font-awesome.css", "input": "../node_modules/font-awesome/css/", "output": "./assets/css/" },
+        { "glob": "**/*", "input": "../node_modules/font-awesome/fonts/", "output": "./assets/fonts/" },
+        { "glob": "**/*", "input": "./assets/", "output": "./assets/" }
       ],
       "index": "index.html",
       "main": "main.ts",
