@@ -44,6 +44,13 @@ export class TmTimeMeasurementComponent implements OnInit {
 
   timerTick(event) {
 
+    // Display the duration of the active time table entry
+    this.currentTimerEntry.duration = Math.round((+new Date() - +this.currentTimerEntry.time) / 1000);
+
+    // Save every 10 seconds
+    if (this.currentTimerEntry.duration % 10 === 0) {
+      this.timeMeasurementService.editTimeTableEntry(this.currentTimerEntry, this.currentTimerEntry);
+    }
   }
 
   timerStarted(event) {
@@ -58,7 +65,7 @@ export class TmTimeMeasurementComponent implements OnInit {
     const newEntry = <TimeTableEntry>{
       time: this.currentTimerEntry.time,
       duration: Math.floor((new Date().valueOf() - this.currentTimerEntry.time.valueOf()) / 1000),
-      text: 'Finished',
+      text: this.currentTimerEntry.text ? this.currentTimerEntry.text : 'Finished',
       isSystemEntry: false
     };
 
