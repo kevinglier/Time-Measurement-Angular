@@ -8,46 +8,46 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 @Injectable()
 export class TmTimeMeasurementService {
 
-  private timeTableEntriesSubject: BehaviorSubject<TimeTableEntry[]> = new BehaviorSubject<TimeTableEntry[]>([]);
-  public timeTableEntries$: Observable<TimeTableEntry[]> = this.timeTableEntriesSubject.asObservable();
-  public get timeTableEntries() {
-    return this.timeTableEntriesSubject.getValue();
-  }
+    private _timeTableEntries = [];
+    private timeTableEntriesSubject: BehaviorSubject<TimeTableEntry[]> = new BehaviorSubject<TimeTableEntry[]>([]);
+    public timeTableEntries$: Observable<TimeTableEntry[]> = this.timeTableEntriesSubject.asObservable();
 
-  constructor() {
-  }
-
-  addTimeTableEntry(entry: TimeTableEntry) {
-    const entries = this.timeTableEntriesSubject.getValue();
-    entries.push(entry);
-    this.timeTableEntriesSubject.next(entries);
-
-    return entry;
-  }
-
-  removeTimeTableEntry(entry: TimeTableEntry) {
-    const index = this.timeTableEntriesSubject.getValue().indexOf(entry);
-    if (index > 0) {
-      const entries = this.timeTableEntriesSubject.getValue().slice(index, 1);
-      this.timeTableEntriesSubject.next(entries);
-
-      return true;
+    public get timeTableEntries() {
+        return this.timeTableEntriesSubject.getValue();
     }
 
-    return false;
-  }
-
-  editTimeTableEntry(oldEntry: TimeTableEntry, newEntry: TimeTableEntry) {
-    const index = this.timeTableEntriesSubject.getValue().indexOf(oldEntry);
-    if (index > 0) {
-      const entries = this.timeTableEntriesSubject.getValue();
-      entries[index] = newEntry;
-      this.timeTableEntriesSubject.next(entries);
-
-      return newEntry;
+    constructor() {
     }
 
-    return null;
-  }
+    addTimeTableEntry(entry: TimeTableEntry) {
+        this._timeTableEntries.push(entry);
+        this.timeTableEntriesSubject.next(this._timeTableEntries);
+
+        return entry;
+    }
+
+    removeTimeTableEntry(entry: TimeTableEntry) {
+        const index = this._timeTableEntries.indexOf(entry);
+        if (index > 0) {
+            this._timeTableEntries = this._timeTableEntries.slice(index, 1);
+            this.timeTableEntriesSubject.next(this._timeTableEntries);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    editTimeTableEntry(oldEntry: TimeTableEntry, newEntry: TimeTableEntry) {
+        const index = this._timeTableEntries.indexOf(oldEntry);
+        if (index >= 0) {
+            this._timeTableEntries[index] = newEntry;
+            this.timeTableEntriesSubject.next(this._timeTableEntries);
+
+            return newEntry;
+        }
+
+        return null;
+    }
 
 }

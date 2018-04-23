@@ -59,7 +59,10 @@ export class TmTimeMeasurementComponent implements OnInit {
       duration: Math.floor((new Date().valueOf() - this.currentTimerEntry.time.valueOf()) / 1000),
       text: 'Finished at ' + new Date()
     };
-    this.timeMeasurementService.editTimeTableEntry(this.currentTimerEntry, newEntry);
+    console.log(this.currentTimerEntry);
+    if (!this.timeMeasurementService.editTimeTableEntry(this.currentTimerEntry, newEntry)) {
+      console.error('Etwas lief schief');
+    }
 
     this.currentTimerEntry = null;
   }
