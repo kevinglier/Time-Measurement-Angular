@@ -79,7 +79,6 @@ export class TmTimeMeasurementService {
       });
 
       if (entries && entries.length > 0) {
-        console.log(entries);
         this._timeTableEntries = entries;
         this.timeTableEntriesSubject.next(this._timeTableEntries);
       }
