@@ -4,9 +4,9 @@ import {TimerType, TimerUnit} from '../settings';
 
 
 export enum TimerState {
-  stopped,
-  paused,
-  running
+  stopped = 1,
+  paused = 2,
+  running = 4
 }
 
 @Component({
@@ -92,8 +92,10 @@ export class TmTimerComponent implements OnInit, OnChanges {
   }
 
   handleStopClick(event: Event) {
-    this.stop();
-    this.timerStoppedByUser.emit(null);
+    if (confirm('Do you really want to stop the timer?')) {
+      this.stop();
+      this.timerStoppedByUser.emit(null);
+    }
   }
 
   resume() {
