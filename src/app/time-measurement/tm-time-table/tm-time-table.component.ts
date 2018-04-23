@@ -5,64 +5,82 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 
 @Component({
-  selector: 'tm-time-table',
-  templateUrl: './tm-time-table.component.html',
-  styleUrls: ['./tm-time-table.component.css']
+    selector: 'tm-time-table',
+    templateUrl: './tm-time-table.component.html',
+    styleUrls: ['./tm-time-table.component.css']
 })
 export class TmTimeTableComponent implements OnInit {
 
-  timeTableEntries = this.timeMeasurementService.timeTableEntries$;
+    timeTableEntries = this.timeMeasurementService.timeTableEntries$;
 
-  newEntry: TimeTableEntry;
-  formNewEntry: FormGroup;
+    formNewEntry: FormGroup;
 
-  constructor(
-    private timeMeasurementService: TmTimeMeasurementService,
-    private formBuilder: FormBuilder
-  ) {
-    this.resetNewEntry();
-  }
+    constructor(
+        private timeMeasurementService: TmTimeMeasurementService,
+        private formBuilder: FormBuilder
+    ) {
+        this.resetNewEntry();
+    }
 
-  ngOnInit() {
-    this.formNewEntry = this.formBuilder.group({
-      time: new FormControl('', [Validators.required]),
-      duration: new FormControl('', [Validators.required]),
-      text: new FormControl('', [Validators.required])
-    });
-  }
+    ngOnInit() {
+        this.formNewEntry = this.formBuilder.group({
+            time: new FormControl(new Date().getHours() + ':' + new Date().getMinutes(), [Validators.required]),
+            duration: new FormControl('00:15', [Validators.required]),
+            text: new FormControl('', [Validators.required])
+        });
+    }
 
-  handleAddNoteButtonClick(event) {
+    handleAddNoteButtonClick(event) {
 
-  }
+        let timeSeconds = mapTimeToSeconds(this.formNewEntry.get('time').value);
+        let durationSeconds = mapTimeToSeconds(this.formNewEntry.get('duration').value);
 
-  handleEditNoteButtonClick(event) {
+        let newEntry: TimeTableEntry = {
+            time: timeSeconds,
+            duration: durationSeconds,
+            text: this.formNewEntry.get('text').value
+        };
 
-  }
+        this.add(newEntry);
+    }
 
-  handleRemoveNoteButtonClick(event) {
+    handleEditNoteButtonClick(event) {
 
+    }
 
-  }
-
-  private resetNewEntry() {
-    const newEntry = new TimeTableEntry();
-    newEntry.time = new Date();
-    newEntry.duration = 2;
-    newEntry.text = '';
-
-    this.newEntry = newEntry;
-  }
+    handleRemoveNoteButtonClick(event) {
 
 
-  add(entry) {
-    this.timeMeasurementService.addTimeTableEntry(entry);
-  }
+    }
 
-  remove(entry) {
-    this.timeMeasurementService.removeTimeTableEntry(entry);
-  }
+    private resetNewEntry() {
+        this.ngOnInit();
+    }
 
-  edit(oldEntry, newEntry) {
-    this.timeMeasurementService.editTimeTableEntry(oldEntry, newEntry);
-  }
+
+    add(entry) {
+        this.timeMeasurementService.addTimeTableEntry(entry);
+    }
+
+    remove(entry) {
+        this.timeMeasurementService.removeTimeTableEntry(entry);
+    }
+
+    edit(oldEntry, newEntry) {
+        this.timeMeasurementService.editTimeTableEntry(oldEntry, newEntry);
+    }
+}
+
+
+function mapTimeToSeconds(v) {
+    if (v) {
+
+        let splitted = v.split(':');
+        if (!splitted || splitted.length != 2)
+            return null;
+
+        return (splitted[0] * 60) + splitted[1];
+    }
+
+    return null;
 }
