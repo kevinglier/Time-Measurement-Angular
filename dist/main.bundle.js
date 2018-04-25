@@ -625,7 +625,7 @@ module.exports = ""
 /***/ "./src/app/time-measurement/tm-time-table/tm-time-table.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<table class=\"table table-bordered\">\r\n  <thead class=\"thead-light\">\r\n  <tr>\r\n    <th style=\"width: 12%\">Start-Time</th>\r\n    <th style=\"width: 12%\">Duration</th>\r\n    <th>Note</th>\r\n    <th style=\"width: 1%\"></th>\r\n  </tr>\r\n  </thead>\r\n  <tbody>\r\n  <tr *ngFor=\"let entry of (timeTableEntries | async)\" [formGroup]=\"formEditEntry\">\r\n    <td>\r\n      <ng-template [ngIf]=\"entry == editEntry && !entry.isSystemEntry\">\r\n        <input type=\"time\" class=\"form-control\" formControlName=\"time\">\r\n      </ng-template>\r\n      <ng-template [ngIf]=\"entry != editEntry || entry.isSystemEntry\">\r\n        {{entry.time | tmTimeTableTime}}\r\n      </ng-template>\r\n    </td>\r\n    <td>\r\n      <ng-template [ngIf]=\"entry == editEntry && !entry.isSystemEntry\">\r\n        <input type=\"time\" class=\"form-control\" formControlName=\"duration\">\r\n      </ng-template>\r\n      <ng-template [ngIf]=\"entry != editEntry || entry.isSystemEntry\">\r\n        {{entry.duration | tmTimeTableDuration}}\r\n      </ng-template>\r\n    </td>\r\n    <td>\r\n      <ng-template [ngIf]=\"entry == editEntry\">\r\n        <textarea class=\"form-control\" formControlName=\"text\" rows=\"1\"></textarea>\r\n      </ng-template>\r\n      <ng-template [ngIf]=\"entry != editEntry\">\r\n        {{entry.text}}\r\n      </ng-template>\r\n\r\n    </td>\r\n    <td class=\"note-options\">\r\n      <button *ngIf=\"entry == editEntry\" type=\"button\" class=\"btn btn-sm btn-success fa fas fa-check\" (click)=\"handleSaveNoteButtonClick($event, entry)\"></button>\r\n      <button *ngIf=\"entry != editEntry\" type=\"button\" class=\"btn btn-sm btn-warning fa fas fa-edit\" (click)=\"handleEditNoteButtonClick($event, entry)\"></button>\r\n      <button type=\"button\" class=\"btn btn-sm btn-danger fa fas fa-remove\" (click)=\"handleRemoveNoteButtonClick($event, entry)\"></button>\r\n    </td>\r\n\r\n  </tr>\r\n  <tr [formGroup]=\"formNewEntry\">\r\n    <td><input type=\"time\" class=\"form-control\" formControlName=\"time\"></td>\r\n    <td><input type=\"time\" class=\"form-control\" formControlName=\"duration\"></td>\r\n    <td><textarea class=\"form-control\" formControlName=\"text\" rows=\"1\"></textarea></td>\r\n    <td>\r\n      <button type=\"button\" class=\"btn btn-sm btn-success fa fas fa-plus\" (click)=\"handleAddNoteButtonClick($event)\"></button>\r\n    </td>\r\n  </tr>\r\n  </tbody>\r\n</table>\r\n"
+module.exports = "<table class=\"table table-bordered\">\r\n  <thead class=\"thead-light\">\r\n    <tr>\r\n      <th style=\"width: 12%\">Start-Time</th>\r\n      <th style=\"width: 12%\">Duration</th>\r\n      <th>Note</th>\r\n      <th style=\"width: 1%\"></th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr *ngFor=\"let entry of (timeTableEntries | async)\" [formGroup]=\"formEditEntry\">\r\n      <td>\r\n        <ng-template [ngIf]=\"entry == editEntry && !entry.isSystemEntry\">\r\n          <input type=\"time\" class=\"form-control\" formControlName=\"time\">\r\n        </ng-template>\r\n        <ng-template [ngIf]=\"entry != editEntry || entry.isSystemEntry\">\r\n          {{entry.time | tmTimeTableTime}}\r\n        </ng-template>\r\n      </td>\r\n      <td>\r\n        <ng-template [ngIf]=\"entry == editEntry && !entry.isSystemEntry\">\r\n          <input type=\"number\" class=\"form-control\" formControlName=\"duration\">\r\n        </ng-template>\r\n        <ng-template [ngIf]=\"entry != editEntry || entry.isSystemEntry\">\r\n          {{entry.duration | tmTimeTableDuration}}\r\n        </ng-template>\r\n      </td>\r\n      <td>\r\n        <ng-template [ngIf]=\"entry == editEntry\">\r\n          <textarea class=\"form-control\" formControlName=\"text\" rows=\"1\"></textarea>\r\n        </ng-template>\r\n        <ng-template [ngIf]=\"entry != editEntry\">\r\n          {{entry.text}}\r\n        </ng-template>\r\n\r\n      </td>\r\n      <td class=\"note-options\">\r\n        <button *ngIf=\"entry == editEntry\" type=\"button\" class=\"btn btn-sm btn-success fa fas fa-check\" (click)=\"handleSaveNoteButtonClick($event, entry)\"></button>\r\n        <button *ngIf=\"entry != editEntry\" type=\"button\" class=\"btn btn-sm btn-warning fa fas fa-edit\" (click)=\"handleEditNoteButtonClick($event, entry)\"></button>\r\n        <button type=\"button\" class=\"btn btn-sm btn-danger fa fas fa-remove\" (click)=\"handleRemoveNoteButtonClick($event, entry)\"></button>\r\n      </td>\r\n\r\n    </tr>\r\n    <tr [formGroup]=\"formNewEntry\">\r\n      <td>\r\n        <input type=\"time\" class=\"form-control\" formControlName=\"time\">\r\n      </td>\r\n      <td>\r\n        <input type=\"number\" class=\"form-control\" formControlName=\"duration\">\r\n      </td>\r\n      <td>\r\n        <textarea class=\"form-control\" formControlName=\"text\" rows=\"1\"></textarea>\r\n      </td>\r\n      <td>\r\n        <button type=\"button\" class=\"btn btn-sm btn-success fa fas fa-plus\" (click)=\"handleAddNoteButtonClick($event)\"></button>\r\n      </td>\r\n    </tr>\r\n  </tbody>\r\n</table>\r\n"
 
 /***/ }),
 
@@ -710,15 +710,17 @@ var TmTimeTableComponent = /** @class */ (function () {
      * @returns {TimeTableEntry}
      */
     TmTimeTableComponent.prototype.getEntryFromForm = function (form, entry) {
-        var time = mapTimeToArray(form.get('time').value);
-        var duration = mapTimeToArray(form.get('duration').value);
-        var timeDate = new Date();
-        timeDate.setSeconds(0);
-        timeDate.setHours(time[0]);
-        timeDate.setMinutes(time[1]);
         entry = entry ? entry : new __WEBPACK_IMPORTED_MODULE_2__time_table_entry__["a" /* TimeTableEntry */]();
-        entry.time = timeDate;
-        entry.duration = (duration[0] * 60) + duration[1];
+        if (form == this.formNewEntry || (form == this.formEditEntry && !entry.isSystemEntry)) {
+            var time = mapTimeToArray(form.get('time').value);
+            var duration = +form.get('duration').value;
+            var timeDate = new Date();
+            timeDate.setSeconds(0);
+            timeDate.setHours(time[0]);
+            timeDate.setMinutes(time[1]);
+            entry.time = timeDate;
+            entry.duration = Math.round(duration * 60);
+        }
         entry.text = form.get('text').value;
         return entry;
     };
@@ -728,7 +730,7 @@ var TmTimeTableComponent = /** @class */ (function () {
     TmTimeTableComponent.prototype.resetNewForm = function () {
         this.formNewEntry = this.formBuilder.group({
             time: new __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* FormControl */](('0' + new Date().getHours()).slice(-2) + ':' + ('0' + new Date().getMinutes()).slice(-2), [__WEBPACK_IMPORTED_MODULE_3__angular_forms__["e" /* Validators */].required]),
-            duration: new __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* FormControl */]('00:15', [__WEBPACK_IMPORTED_MODULE_3__angular_forms__["e" /* Validators */].required]),
+            duration: new __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* FormControl */](15, [__WEBPACK_IMPORTED_MODULE_3__angular_forms__["e" /* Validators */].required]),
             text: new __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* FormControl */]('', [__WEBPACK_IMPORTED_MODULE_3__angular_forms__["e" /* Validators */].required])
         });
     };
@@ -741,11 +743,13 @@ var TmTimeTableComponent = /** @class */ (function () {
             this.formEditEntry.disable();
             return;
         }
-        this.formEditEntry = this.formBuilder.group({
-            time: new __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* FormControl */](('0' + this.editEntry.time.getHours()).slice(-2) + ':' + ('0' + this.editEntry.time.getMinutes()).slice(-2), [__WEBPACK_IMPORTED_MODULE_3__angular_forms__["e" /* Validators */].required]),
-            duration: new __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* FormControl */](('0' + Math.floor(this.editEntry.duration / 60)).slice(-2) + ':' + ('0' + (this.editEntry.duration % 60)).slice(-2), [__WEBPACK_IMPORTED_MODULE_3__angular_forms__["e" /* Validators */].required]),
-            text: new __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* FormControl */](this.editEntry.text, [__WEBPACK_IMPORTED_MODULE_3__angular_forms__["e" /* Validators */].required])
-        });
+        var formControls = {};
+        if (!this.editEntry.isSystemEntry) {
+            formControls['time'] = new __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* FormControl */](('0' + this.editEntry.time.getHours()).slice(-2) + ':' + ('0' + this.editEntry.time.getMinutes()).slice(-2), [__WEBPACK_IMPORTED_MODULE_3__angular_forms__["e" /* Validators */].required]);
+            formControls['duration'] = new __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* FormControl */](Math.floor(this.editEntry.duration / 60), [__WEBPACK_IMPORTED_MODULE_3__angular_forms__["e" /* Validators */].required, __WEBPACK_IMPORTED_MODULE_3__angular_forms__["e" /* Validators */].pattern('[0-9]+')]);
+        }
+        formControls['text'] = new __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* FormControl */](this.editEntry.text, [__WEBPACK_IMPORTED_MODULE_3__angular_forms__["e" /* Validators */].required]);
+        this.formEditEntry = this.formBuilder.group(formControls);
         this.formEditEntry.enable();
     };
     TmTimeTableComponent.prototype.add = function (entry) {
