@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {TmTimeMeasurementService} from './tm-time-measurement.service';
-import {TimeMeasurementSettings, TimerType, TimerUnit} from './settings';
-import {TimeTableEntry} from './time-table-entry';
+import { Component, OnInit } from '@angular/core';
+import { TmTimeMeasurementService } from './tm-time-measurement.service';
+import { TimeMeasurementSettings, TimerType, TimerUnit } from './settings';
+import { TimeTableEntry } from './time-table-entry';
 
 @Component({
   selector: 'tm-time-measurement',
@@ -19,6 +19,7 @@ export class TmTimeMeasurementComponent implements OnInit {
   };
 
   currentTimerEntry = null;
+  isTimerPaused = true;
 
   public get timerStartValue() {
 
@@ -54,11 +55,17 @@ export class TmTimeMeasurementComponent implements OnInit {
   }
 
   timerStarted(event) {
-    this.currentTimerEntry = this.timeMeasurementService.addTimeTableEntry(<TimeTableEntry>{
-      time: new Date(),
-      duration: null,
-      isSystemEntry: true
-    });
+
+    if (!this.isTimerPaused || !this.currentTimerEntry) {
+
+      this.currentTimerEntry = this.timeMeasurementService.addTimeTableEntry(<TimeTableEntry>{
+        time: new Date(),
+        duration: null,
+        isSystemEntry: true
+      });
+    }
+
+    this.isTimerPaused = false;
   }
 
   timerStopped(event) {
@@ -77,7 +84,7 @@ export class TmTimeMeasurementComponent implements OnInit {
   }
 
   timerPaused(event) {
-
+    this.isTimerPaused = true;
   }
 
   settingsChanged(event) {
