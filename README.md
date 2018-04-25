@@ -1,6 +1,18 @@
 # Time Measurement
 
+Check the latest build state:
 https://kevinglier.github.io/Time-Measurement-Angular/dist/index.html
+
+## How to work with this Repository
+
+The only tools you need is an text edtior or IDE and NodeJS in a version above 8. If you meet these requirements,
+all you have to do is the following:
+
+1. Clone the Repository to the desired location on your computer
+2. Open a terminal (eg. Powershell) in the repositories directory and type "npm install"
+3. To work and test the application, type "npm run ng serve" or "npm run ng test".
+    - With the first command you will get a localhost URL, which you can open up in your browser (somewhat like http://localhost:4200/Time-Measurement-Angular/dist)
+
 
 ## Angular Notes
 
