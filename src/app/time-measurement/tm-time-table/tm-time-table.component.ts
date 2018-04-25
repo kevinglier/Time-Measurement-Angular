@@ -1,7 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {TmTimeMeasurementService} from '../tm-time-measurement.service';
-import {TimeTableEntry} from '../time-table-entry';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { TmTimeMeasurementService } from '../tm-time-measurement.service';
+import { TimeTableEntry } from '../time-table-entry';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -87,17 +87,22 @@ export class TmTimeTableComponent implements OnInit {
    * @returns {TimeTableEntry}
    */
   private getEntryFromForm(form: FormGroup, entry?: TimeTableEntry): TimeTableEntry {
-    const time = mapTimeToArray(form.get('time').value);
-    const duration = mapTimeToArray(form.get('duration').value);
-
-    const timeDate = new Date();
-    timeDate.setSeconds(0);
-    timeDate.setHours(time[0]);
-    timeDate.setMinutes(time[1]);
 
     entry = entry ? entry : new TimeTableEntry();
-    entry.time = timeDate;
-    entry.duration = (duration[0] * 60) + duration[1];
+
+    if (form == this.formNewEntry || (form == this.formEditEntry && !entry.isSystemEntry)) {
+      const time = mapTimeToArray(form.get('time').value);
+      const duration = +form.get('duration').value;
+
+      const timeDate = new Date();
+      timeDate.setSeconds(0);
+      timeDate.setHours(time[0]);
+      timeDate.setMinutes(time[1]);
+
+
+      entry.time = timeDate;
+      entry.duration = Math.round(duration * 60);
+    }
     entry.text = form.get('text').value;
 
     return entry;
@@ -112,7 +117,7 @@ export class TmTimeTableComponent implements OnInit {
         ('0' + new Date().getHours()).slice(-2) + ':' + ('0' + new Date().getMinutes()).slice(-2),
         [Validators.required]
       ),
-      duration: new FormControl('00:15', [Validators.required]),
+      duration: new FormControl(15, [Validators.required]),
       text: new FormControl('', [Validators.required])
     });
   }
@@ -127,17 +132,21 @@ export class TmTimeTableComponent implements OnInit {
       return;
     }
 
-    this.formEditEntry = this.formBuilder.group({
-      time: new FormControl(
+    let formControls = {};
+
+    if (!this.editEntry.isSystemEntry) {
+      formControls['time'] = new FormControl(
         ('0' + this.editEntry.time.getHours()).slice(-2) + ':' + ('0' + this.editEntry.time.getMinutes()).slice(-2),
         [Validators.required]
-      ),
-      duration: new FormControl(
-        ('0' + Math.floor(this.editEntry.duration / 60)).slice(-2) + ':' + ('0' + (this.editEntry.duration % 60)).slice(-2),
-        [Validators.required]
-      ),
-      text: new FormControl(this.editEntry.text, [Validators.required])
-    });
+      );
+      formControls['duration'] = new FormControl(
+        Math.floor(this.editEntry.duration / 60),
+        [Validators.required, Validators.pattern('[0-9]+')]
+      );
+    }
+    formControls['text'] = new FormControl(this.editEntry.text, [Validators.required]);
+
+    this.formEditEntry = this.formBuilder.group(formControls);
     this.formEditEntry.enable();
   }
 

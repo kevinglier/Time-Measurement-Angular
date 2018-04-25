@@ -1,53 +1,59 @@
 <table class="table table-bordered">
   <thead class="thead-light">
-  <tr>
-    <th style="width: 12%">Start-Time</th>
-    <th style="width: 12%">Duration</th>
-    <th>Note</th>
-    <th style="width: 1%"></th>
-  </tr>
+    <tr>
+      <th style="width: 12%">Start-Time</th>
+      <th style="width: 12%">Duration</th>
+      <th>Note</th>
+      <th style="width: 1%"></th>
+    </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let entry of (timeTableEntries | async)" [formGroup]="formEditEntry">
-    <td>
-      <ng-template [ngIf]="entry == editEntry && !entry.isSystemEntry">
+    <tr *ngFor="let entry of (timeTableEntries | async)" [formGroup]="formEditEntry">
+      <td>
+        <ng-template [ngIf]="entry == editEntry && !entry.isSystemEntry">
+          <input type="time" class="form-control" formControlName="time">
+        </ng-template>
+        <ng-template [ngIf]="entry != editEntry || entry.isSystemEntry">
+          {{entry.time | tmTimeTableTime}}
+        </ng-template>
+      </td>
+      <td>
+        <ng-template [ngIf]="entry == editEntry && !entry.isSystemEntry">
+          <input type="number" class="form-control" formControlName="duration">
+        </ng-template>
+        <ng-template [ngIf]="entry != editEntry || entry.isSystemEntry">
+          {{entry.duration | tmTimeTableDuration}}
+        </ng-template>
+      </td>
+      <td>
+        <ng-template [ngIf]="entry == editEntry">
+          <textarea class="form-control" formControlName="text" rows="1"></textarea>
+        </ng-template>
+        <ng-template [ngIf]="entry != editEntry">
+          {{entry.text}}
+        </ng-template>
+
+      </td>
+      <td class="note-options">
+        <button *ngIf="entry == editEntry" type="button" class="btn btn-sm btn-success fa fas fa-check" (click)="handleSaveNoteButtonClick($event, entry)"></button>
+        <button *ngIf="entry != editEntry" type="button" class="btn btn-sm btn-warning fa fas fa-edit" (click)="handleEditNoteButtonClick($event, entry)"></button>
+        <button type="button" class="btn btn-sm btn-danger fa fas fa-remove" (click)="handleRemoveNoteButtonClick($event, entry)"></button>
+      </td>
+
+    </tr>
+    <tr [formGroup]="formNewEntry">
+      <td>
         <input type="time" class="form-control" formControlName="time">
-      </ng-template>
-      <ng-template [ngIf]="entry != editEntry || entry.isSystemEntry">
-        {{entry.time | tmTimeTableTime}}
-      </ng-template>
-    </td>
-    <td>
-      <ng-template [ngIf]="entry == editEntry && !entry.isSystemEntry">
-        <input type="time" class="form-control" formControlName="duration">
-      </ng-template>
-      <ng-template [ngIf]="entry != editEntry || entry.isSystemEntry">
-        {{entry.duration | tmTimeTableDuration}}
-      </ng-template>
-    </td>
-    <td>
-      <ng-template [ngIf]="entry == editEntry">
+      </td>
+      <td>
+        <input type="number" class="form-control" formControlName="duration">
+      </td>
+      <td>
         <textarea class="form-control" formControlName="text" rows="1"></textarea>
-      </ng-template>
-      <ng-template [ngIf]="entry != editEntry">
-        {{entry.text}}
-      </ng-template>
-
-    </td>
-    <td class="note-options">
-      <button *ngIf="entry == editEntry" type="button" class="btn btn-sm btn-success fa fas fa-check" (click)="handleSaveNoteButtonClick($event, entry)"></button>
-      <button *ngIf="entry != editEntry" type="button" class="btn btn-sm btn-warning fa fas fa-edit" (click)="handleEditNoteButtonClick($event, entry)"></button>
-      <button type="button" class="btn btn-sm btn-danger fa fas fa-remove" (click)="handleRemoveNoteButtonClick($event, entry)"></button>
-    </td>
-
-  </tr>
-  <tr [formGroup]="formNewEntry">
-    <td><input type="time" class="form-control" formControlName="time"></td>
-    <td><input type="time" class="form-control" formControlName="duration"></td>
-    <td><textarea class="form-control" formControlName="text" rows="1"></textarea></td>
-    <td>
-      <button type="button" class="btn btn-sm btn-success fa fas fa-plus" (click)="handleAddNoteButtonClick($event)"></button>
-    </td>
-  </tr>
+      </td>
+      <td>
+        <button type="button" class="btn btn-sm btn-success fa fas fa-plus" (click)="handleAddNoteButtonClick($event)"></button>
+      </td>
+    </tr>
   </tbody>
 </table>
