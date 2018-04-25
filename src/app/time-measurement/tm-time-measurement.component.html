@@ -12,9 +12,9 @@
                 <tm-timer [type]="settings.timer.type"
                        [startValue]="timerStartValue"
                        (timerEnded)="timerStopped($event)"
-                       (timerStartedByUser)="timerStarted($event)"
-                       (timerStoppedByUser)="timerStopped($event)"
-                       (timerPausedByUser)="timerPaused($event)"
+                       (timerStarted)="timerStarted($event)"
+                       (timerStopped)="timerStopped($event)"
+                       (timerPaused)="timerPaused($event)"
                        (timerTick)="timerTick($event)"></tm-timer>
             </div>
         </div>

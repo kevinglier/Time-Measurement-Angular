@@ -21,8 +21,8 @@ export class TmSettingsComponent implements OnInit, OnChanges {
     {caption: 'Custom', value: TimerUnit.custom},
   ];
   timerCustomValueMinutesValues = (() => {
-    const x = [];
-    for (let i = 0; i <= 120; i += 5) {
+    const x = [1, 2, 3, 4];
+    for (let i = 5; i <= 120; i += 5) {
       x.push(i);
     }
     return x;
