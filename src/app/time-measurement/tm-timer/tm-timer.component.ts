@@ -17,9 +17,9 @@ export enum TimerState {
 export class TmTimerComponent implements OnInit, OnChanges {
 
   @Output() timerEnded = new EventEmitter<any>();
-  @Output() timerStartedByUser = new EventEmitter<any>();
-  @Output() timerStoppedByUser = new EventEmitter<any>();
-  @Output() timerPausedByUser = new EventEmitter<any>();
+  @Output() timerStarted = new EventEmitter<any>();
+  @Output() timerStopped = new EventEmitter<any>();
+  @Output() timerPaused = new EventEmitter<any>();
   @Output() timerTick = new EventEmitter<any>();
 
 
@@ -80,21 +80,21 @@ export class TmTimerComponent implements OnInit, OnChanges {
   handleStartClick(event: Event) {
     if (this.state !== TimerState.running) {
       this.resume();
-      this.timerStartedByUser.emit(null);
+      this.timerStarted.emit(null);
     }
   }
 
   handlePauseClick(event: Event) {
     if (this.state === TimerState.running) {
       this.pause();
-      this.timerPausedByUser.emit(null);
+      this.timerPaused.emit(null);
     }
   }
 
   handleStopClick(event: Event) {
     if (confirm('Do you really want to stop the timer?')) {
       this.stop();
-      this.timerStoppedByUser.emit(null);
+      this.timerStopped.emit(null);
     }
   }
 
@@ -132,9 +132,14 @@ export class TmTimerComponent implements OnInit, OnChanges {
         break;
     }
 
+    if (this.remaining <= 0) {
+      this.stop();
+      this.timerStopped.emit();
+    }
+
     this.updateRemainingTimeString();
 
-    this.timerTick.emit(null);
+    this.timerTick.emit(this.remaining);
   }
 
   private updateRemainingTimeString() {
