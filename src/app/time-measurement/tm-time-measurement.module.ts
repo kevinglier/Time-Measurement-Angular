@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {CtCommonToolsModule} from '../common-tools/ct-common-tools.module';
 import {TmTimeMeasurementComponent} from './tm-time-measurement.component';
 import {TmTimeTableComponent} from './tm-time-table/tm-time-table.component';
 import {TmTimerComponent} from './tm-timer/tm-timer.component';
@@ -13,7 +14,8 @@ import {TmTimeTableDurationPipe} from './tm-time-table/tm-time-table-duration.pi
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CtCommonToolsModule
   ],
   declarations: [
     TmTimeMeasurementComponent,

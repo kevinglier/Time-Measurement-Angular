@@ -15,7 +15,8 @@ export class TmTimeMeasurementComponent implements OnInit {
       type: TimerType.timer,
       unit: TimerUnit.pomodoro,
       customValue: 15 * 60
-    }
+    },
+    soundFile: 'assets/sounds/timer_gong'
   };
 
   currentTimerEntry = null;

@@ -10,6 +10,7 @@
             </div>
             <div class="card-body">
                 <tm-timer [type]="settings.timer.type"
+                       [timerDoneSoundfile]="settings.timer.soundFile"
                        [startValue]="timerStartValue"
                        (timerEnded)="timerStopped($event)"
                        (timerStarted)="timerStarted($event)"

@@ -24,6 +24,9 @@
     </select>
 </div>
 <div>
-    <button type="button" class="btn btn-lg btn-default" type="button" data-bind="click: soundTestClick">Sound-Test
-    </button>
+    Timer Done Soundfile:
+    <select [ngModel]="settings.timer.soundFile" (ngModelChange)="soundFileChange($event)">
+        <option *ngFor="let option of soundFileOptions" [value]="option.value">{{ option.caption }}</option>
+    </select>
+    <button type="button" class="btn btn-sm btn-default fa fas fa-volume-up" (click)="previewSoundfile($event)"></button>
 </div>

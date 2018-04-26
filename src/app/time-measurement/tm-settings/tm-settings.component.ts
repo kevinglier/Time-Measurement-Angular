@@ -1,5 +1,6 @@
 import {Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
 import {TimerType, TimerUnit, TimeMeasurementSettings} from '../settings';
+import { CtSoundService } from '../../common-tools/ct-sound.service';
 
 @Component({
   selector: 'tm-settings',
@@ -34,15 +35,20 @@ export class TmSettingsComponent implements OnInit, OnChanges {
     }
     return x;
   })();
+  soundFileOptions = [
+    {caption: 'Mute', value: null},
+    {caption: 'Gong', value: 'assets/sounds/timer_gong'},
+  ];
 
   @Input() settings: TimeMeasurementSettings;
   @Output() settingsChange = new EventEmitter<TimeMeasurementSettings>();
 
-  constructor() {
+  constructor(
+    private soundService: CtSoundService
+  ) {
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['settings']) {
@@ -60,6 +66,11 @@ export class TmSettingsComponent implements OnInit, OnChanges {
 
   timerUnitChange(type) {
     this.settings.timer.unit = type;
+    this.settingsChange.emit(this.settings);
+  }
+
+  soundFileChange(soundFile) {
+    this.settings.soundFile = soundFile;
     this.settingsChange.emit(this.settings);
   }
 
@@ -84,4 +95,9 @@ export class TmSettingsComponent implements OnInit, OnChanges {
     this.settingsChange.emit(this.settings);
   }
 
+  previewSoundfile(event: Event): void {
+    if (this.settings.soundFile) {
+      this.soundService.playSound(this.settings.soundFile);
+    }
+  }
 }

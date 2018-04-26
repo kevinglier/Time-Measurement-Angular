@@ -1,7 +1,7 @@
 import {Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {TimerType, TimerUnit} from '../settings';
-
+import {CtSoundService} from '../../common-tools/ct-sound.service';
 
 export enum TimerState {
   stopped = 1,
@@ -22,6 +22,17 @@ export class TmTimerComponent implements OnInit, OnChanges {
   @Output() timerPaused = new EventEmitter<any>();
   @Output() timerTick = new EventEmitter<any>();
 
+
+  
+  private _timerDoneSoundfile: string;
+  @Input() set timerDoneSoundfile(value) {
+    this._timerDoneSoundfile = value;
+    this.stop();
+  }
+
+  get timerDoneSoundfile() {
+    return this._timerDoneSoundfile;
+  }
 
   private _type: TimerType;
   @Input() set type(value) {
@@ -62,7 +73,9 @@ export class TmTimerComponent implements OnInit, OnChanges {
 
   private _timerHandle = null;
 
-  constructor() {
+  constructor(
+    private soundService: CtSoundService
+  ) {
   }
 
   ngOnInit() {
@@ -134,12 +147,18 @@ export class TmTimerComponent implements OnInit, OnChanges {
 
     if (this.remaining <= 0) {
       this.stop();
+      this.playSound();
       this.timerStopped.emit();
     }
 
     this.updateRemainingTimeString();
 
     this.timerTick.emit(this.remaining);
+  }
+
+  private playSound() {
+    if (this.timeDoneSoundfile)
+      this.soundService.playSound(this.timeDoneSoundfile);
   }
 
   private updateRemainingTimeString() {
