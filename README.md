@@ -10,10 +10,7 @@ Here we have a small Angular 5 SPA, which enables you to simply track the time f
 
 1. Table with tracking entries
    - new entries can be added
-   - each entry displays
-         - the time the task was started
-         - the duration the task took
-         - a note you define
+   - each entry displays the time the task was started, the duration it took and a note you define
    - entries can be edited
 2. Timer, which can is working in both direction (counting down or up)
    - Task are created automatically with the current time. The duration counts up, when the timer is running
