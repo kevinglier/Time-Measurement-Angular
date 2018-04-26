@@ -3,7 +3,7 @@
 </div>
 
 <div class="countdown-timer-buttons">
-  <button type="button" class="btn btn-lg btn-success" type="button" (click)="handleStartClick($event)" [attr.disabled]="state == 4 ? 'disabled' : null">Start</button>
+  <button type="button" class="btn btn-lg btn-success" type="button" (click)="handleStartClick($event)" [attr.disabled]="state == 4 ? 'disabled' : null">{{ state == 1 ? 'Start' : 'Resume' }}</button>
   <button type="button" class="btn btn-lg btn-warning" type="button" (click)="handlePauseClick($event)" [attr.disabled]="state != 4 ? 'disabled' : null">Pause</button>
   <button type="button" class="btn btn-lg btn-danger" type="button" (click)="handleStopClick($event)" [attr.disabled]="state != 2 && state != 4 ? 'disabled' : null">Stop</button>
 </div>
