@@ -6,6 +6,8 @@
 
 Here we have a small Angular 5 SPA, which enables you to simply track the time for any task you're currently working on.
 
+![Screenshot](https://kevinglier.github.io/Time-Measurement-Angular/media/screenshot.jpg "Screenshot")
+
 ## Features
 
 1. Table with tracking entries
