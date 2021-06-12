@@ -157,8 +157,8 @@ export class TmTimerComponent implements OnInit, OnChanges {
   }
 
   private playSound() {
-    if (this.timeDoneSoundfile)
-      this.soundService.playSound(this.timeDoneSoundfile);
+    if (this.timerDoneSoundfile)
+      this.soundService.playSound(this.timerDoneSoundfile);
   }
 
   private updateRemainingTimeString() {
