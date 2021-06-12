@@ -104,6 +104,96 @@ var AppModule = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/common-tools/ct-common-tools.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CtCommonToolsModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ct_sound_service__ = __webpack_require__("./src/app/common-tools/ct-sound.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+var CtCommonToolsModule = /** @class */ (function () {
+    function CtCommonToolsModule() {
+    }
+    CtCommonToolsModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* NgModule */])({
+            imports: [],
+            declarations: [],
+            providers: [
+                __WEBPACK_IMPORTED_MODULE_1__ct_sound_service__["a" /* CtSoundService */]
+            ]
+        })
+    ], CtCommonToolsModule);
+    return CtCommonToolsModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/common-tools/ct-sound.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CtSoundService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var CtSoundService = /** @class */ (function () {
+    function CtSoundService() {
+    }
+    CtSoundService.prototype.playSound = function (soundFile) {
+        if (!soundFile) {
+            return;
+        }
+        var elemAudio = document.createElement('audio');
+        var elemSourceWav = document.createElement('source');
+        elemSourceWav.src = soundFile + '.wav';
+        var elemSourceMp3 = document.createElement('source');
+        elemSourceMp3.src = soundFile + '.mp3';
+        elemAudio.appendChild(elemSourceWav);
+        elemAudio.appendChild(elemSourceMp3);
+        document.body.appendChild(elemAudio);
+        elemAudio.play();
+        elemAudio.onended = function (event) {
+            document.body.removeChild(elemAudio);
+        };
+    };
+    CtSoundService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* Injectable */])(),
+        __metadata("design:paramtypes", [])
+    ], CtSoundService);
+    return CtSoundService;
+}());
+
+/*
+
+  <audio controls id="audiostuff" style="display:none">
+      <source src="sounds/Gong-sound.mp3" type="audio/mpeg">
+      <source src="sounds/Gong-sound.wav" type="audio/wav">
+      Your browser does not support the audio element.
+  </audio>
+
+  */ 
+
+
+/***/ }),
+
 /***/ "./src/app/time-measurement/settings.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -157,7 +247,7 @@ module.exports = ""
 /***/ "./src/app/time-measurement/tm-settings/tm-settings.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div>\r\n    Type:\r\n    <select [ngModel]=\"settings.timer.type\" (ngModelChange)=\"timerTypeChange($event)\">\r\n        <option *ngFor=\"let option of timerTypeOptions\" [value]=\"option.value\">{{ option.caption }}</option>\r\n    </select>\r\n</div>\r\n<div>\r\n    Time Unit:\r\n    <select #timerUnit [ngModel]=\"settings.timer.unit\" (ngModelChange)=\"timerUnitChange($event)\"\r\n            [attr.disabled]=\"settings.timer.type != 0 ? 'disabled' : null\">\r\n        <option *ngFor=\"let option of timerUnitOptions\" [value]=\"option.value\">{{ option.caption }}</option>\r\n    </select>\r\n</div>\r\n<div data-bind=\"if: timerTimeUnit() == 'any'\">\r\n    Timer Value:\r\n    <select [(ngModel)]=\"timerCustomValueMinutes\"\r\n            [attr.disabled]=\"timerUnit.disabled || settings.timer.unit != 2 ? 'disabled' : null\">\r\n        <option *ngFor=\"let minute of timerCustomValueMinutesValues\" [value]=\"minute\">{{ minute }}</option>\r\n    </select>\r\n    :\r\n    <select [(ngModel)]=\"timerCustomValueSeconds\"\r\n            [attr.disabled]=\"timerUnit.disabled || settings.timer.unit != 2 ? 'disabled' : null\">\r\n        <option *ngFor=\"let second of timerCustomValueSecondsValues\" [value]=\"second\">{{ second }}</option>\r\n    </select>\r\n</div>\r\n<div>\r\n    <button type=\"button\" class=\"btn btn-lg btn-default\" type=\"button\" data-bind=\"click: soundTestClick\">Sound-Test\r\n    </button>\r\n</div>"
+module.exports = "<div>\r\n    Type:\r\n    <select [ngModel]=\"settings.timer.type\" (ngModelChange)=\"timerTypeChange($event)\">\r\n        <option *ngFor=\"let option of timerTypeOptions\" [value]=\"option.value\">{{ option.caption }}</option>\r\n    </select>\r\n</div>\r\n<div>\r\n    Time Unit:\r\n    <select #timerUnit [ngModel]=\"settings.timer.unit\" (ngModelChange)=\"timerUnitChange($event)\"\r\n            [attr.disabled]=\"settings.timer.type != 0 ? 'disabled' : null\">\r\n        <option *ngFor=\"let option of timerUnitOptions\" [value]=\"option.value\">{{ option.caption }}</option>\r\n    </select>\r\n</div>\r\n<div data-bind=\"if: timerTimeUnit() == 'any'\">\r\n    Timer Value:\r\n    <select [(ngModel)]=\"timerCustomValueMinutes\"\r\n            [attr.disabled]=\"timerUnit.disabled || settings.timer.unit != 2 ? 'disabled' : null\">\r\n        <option *ngFor=\"let minute of timerCustomValueMinutesValues\" [value]=\"minute\">{{ minute }}</option>\r\n    </select>\r\n    :\r\n    <select [(ngModel)]=\"timerCustomValueSeconds\"\r\n            [attr.disabled]=\"timerUnit.disabled || settings.timer.unit != 2 ? 'disabled' : null\">\r\n        <option *ngFor=\"let second of timerCustomValueSecondsValues\" [value]=\"second\">{{ second }}</option>\r\n    </select>\r\n</div>\r\n<div>\r\n    Timer Done Soundfile:\r\n    <select [ngModel]=\"settings.timer.soundFile\" (ngModelChange)=\"soundFileChange($event)\">\r\n        <option *ngFor=\"let option of soundFileOptions\" [value]=\"option.value\">{{ option.caption }}</option>\r\n    </select>\r\n    <button type=\"button\" class=\"btn btn-sm btn-default fa fas fa-volume-up\" (click)=\"previewSoundfile($event)\"></button>\r\n</div>"
 
 /***/ }),
 
@@ -168,6 +258,7 @@ module.exports = "<div>\r\n    Type:\r\n    <select [ngModel]=\"settings.timer.t
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TmSettingsComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__settings__ = __webpack_require__("./src/app/time-measurement/settings.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common_tools_ct_sound_service__ = __webpack_require__("./src/app/common-tools/ct-sound.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -179,8 +270,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var TmSettingsComponent = /** @class */ (function () {
-    function TmSettingsComponent() {
+    function TmSettingsComponent(soundService) {
+        this.soundService = soundService;
         this._timerCustomValueMinutes = 15;
         this._timerCustomValueSeconds = 0;
         this.timerTypeOptions = [
@@ -206,10 +299,13 @@ var TmSettingsComponent = /** @class */ (function () {
             }
             return x;
         })();
+        this.soundFileOptions = [
+            { caption: 'Mute', value: null },
+            { caption: 'Gong', value: 'assets/sounds/timer_gong' },
+        ];
         this.settingsChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* EventEmitter */]();
     }
-    TmSettingsComponent.prototype.ngOnInit = function () {
-    };
+    TmSettingsComponent.prototype.ngOnInit = function () { };
     TmSettingsComponent.prototype.ngOnChanges = function (changes) {
         if (changes['settings']) {
             var m = this.settings.timer.customValue ? Math.floor(this.settings.timer.customValue / 60) : 15;
@@ -224,6 +320,10 @@ var TmSettingsComponent = /** @class */ (function () {
     };
     TmSettingsComponent.prototype.timerUnitChange = function (type) {
         this.settings.timer.unit = type;
+        this.settingsChange.emit(this.settings);
+    };
+    TmSettingsComponent.prototype.soundFileChange = function (soundFile) {
+        this.settings.soundFile = soundFile;
         this.settingsChange.emit(this.settings);
     };
     Object.defineProperty(TmSettingsComponent.prototype, "timerCustomValueMinutes", {
@@ -250,6 +350,11 @@ var TmSettingsComponent = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    TmSettingsComponent.prototype.previewSoundfile = function (event) {
+        if (this.settings.soundFile) {
+            this.soundService.playSound(this.settings.soundFile);
+        }
+    };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* Input */])(),
         __metadata("design:type", Object)
@@ -264,7 +369,7 @@ var TmSettingsComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/time-measurement/tm-settings/tm-settings.component.html"),
             styles: [__webpack_require__("./src/app/time-measurement/tm-settings/tm-settings.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__common_tools_ct_sound_service__["a" /* CtSoundService */]])
     ], TmSettingsComponent);
     return TmSettingsComponent;
 }());
@@ -283,7 +388,7 @@ module.exports = ""
 /***/ "./src/app/time-measurement/tm-time-measurement.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-7\">\r\n        <tm-time-table></tm-time-table>\r\n    </div>\r\n    <div class=\"col-md-5\">\r\n\r\n        <div class=\"card box-shadow\">\r\n            <div class=\"card-header\">\r\n                <h4 class=\"my-0 font-weight-normal\">Start a Timer</h4>\r\n            </div>\r\n            <div class=\"card-body\">\r\n                <tm-timer [type]=\"settings.timer.type\"\r\n                       [startValue]=\"timerStartValue\"\r\n                       (timerEnded)=\"timerStopped($event)\"\r\n                       (timerStarted)=\"timerStarted($event)\"\r\n                       (timerStopped)=\"timerStopped($event)\"\r\n                       (timerPaused)=\"timerPaused($event)\"\r\n                       (timerTick)=\"timerTick($event)\"></tm-timer>\r\n            </div>\r\n        </div>\r\n\r\n        <div class=\"card box-shadow countdown-timer-settings\">\r\n            <div class=\"card-header\">\r\n                <h4 class=\"my-0 font-weight-normal\">Settings</h4>\r\n            </div>\r\n            <div class=\"card-body\">\r\n                <tm-settings [(settings)]=\"settings\"></tm-settings>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-7\">\r\n        <tm-time-table></tm-time-table>\r\n    </div>\r\n    <div class=\"col-md-5\">\r\n\r\n        <div class=\"card box-shadow\">\r\n            <div class=\"card-header\">\r\n                <h4 class=\"my-0 font-weight-normal\">Timer</h4>\r\n            </div>\r\n            <div class=\"card-body\">\r\n                <tm-timer [type]=\"settings.timer.type\"\r\n                       [timerDoneSoundfile]=\"settings.timer.soundFile\"\r\n                       [startValue]=\"timerStartValue\"\r\n                       (timerEnded)=\"timerStopped($event)\"\r\n                       (timerStarted)=\"timerStarted($event)\"\r\n                       (timerStopped)=\"timerStopped($event)\"\r\n                       (timerPaused)=\"timerPaused($event)\"\r\n                       (timerTick)=\"timerTick($event)\"></tm-timer>\r\n            </div>\r\n        </div>\r\n\r\n        <div class=\"card box-shadow countdown-timer-settings\">\r\n            <div class=\"card-header\">\r\n                <h4 class=\"my-0 font-weight-normal\">Settings</h4>\r\n            </div>\r\n            <div class=\"card-body\">\r\n                <tm-settings [(settings)]=\"settings\"></tm-settings>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -315,7 +420,8 @@ var TmTimeMeasurementComponent = /** @class */ (function () {
                 type: __WEBPACK_IMPORTED_MODULE_2__settings__["a" /* TimerType */].timer,
                 unit: __WEBPACK_IMPORTED_MODULE_2__settings__["b" /* TimerUnit */].pomodoro,
                 customValue: 15 * 60
-            }
+            },
+            soundFile: 'assets/sounds/timer_gong'
         };
         this.currentTimerEntry = null;
         this.isTimerPaused = true;
@@ -395,19 +501,21 @@ var TmTimeMeasurementComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("./node_modules/@angular/common/esm5/common.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tm_time_measurement_component__ = __webpack_require__("./src/app/time-measurement/tm-time-measurement.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__tm_time_table_tm_time_table_component__ = __webpack_require__("./src/app/time-measurement/tm-time-table/tm-time-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__tm_timer_tm_timer_component__ = __webpack_require__("./src/app/time-measurement/tm-timer/tm-timer.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__tm_settings_tm_settings_component__ = __webpack_require__("./src/app/time-measurement/tm-settings/tm-settings.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__tm_time_measurement_service__ = __webpack_require__("./src/app/time-measurement/tm-time-measurement.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__tm_time_table_tm_time_table_time_pipe__ = __webpack_require__("./src/app/time-measurement/tm-time-table/tm-time-table-time.pipe.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__tm_time_table_tm_time_table_duration_pipe__ = __webpack_require__("./src/app/time-measurement/tm-time-table/tm-time-table-duration.pipe.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_tools_ct_common_tools_module__ = __webpack_require__("./src/app/common-tools/ct-common-tools.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__tm_time_measurement_component__ = __webpack_require__("./src/app/time-measurement/tm-time-measurement.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__tm_time_table_tm_time_table_component__ = __webpack_require__("./src/app/time-measurement/tm-time-table/tm-time-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__tm_timer_tm_timer_component__ = __webpack_require__("./src/app/time-measurement/tm-timer/tm-timer.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__tm_settings_tm_settings_component__ = __webpack_require__("./src/app/time-measurement/tm-settings/tm-settings.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__tm_time_measurement_service__ = __webpack_require__("./src/app/time-measurement/tm-time-measurement.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__tm_time_table_tm_time_table_time_pipe__ = __webpack_require__("./src/app/time-measurement/tm-time-table/tm-time-table-time.pipe.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__tm_time_table_tm_time_table_duration_pipe__ = __webpack_require__("./src/app/time-measurement/tm-time-table/tm-time-table-duration.pipe.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -426,19 +534,20 @@ var TmTimeMeasurementModule = /** @class */ (function () {
             imports: [
                 __WEBPACK_IMPORTED_MODULE_1__angular_common__["a" /* CommonModule */],
                 __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* FormsModule */],
-                __WEBPACK_IMPORTED_MODULE_2__angular_forms__["d" /* ReactiveFormsModule */]
+                __WEBPACK_IMPORTED_MODULE_2__angular_forms__["d" /* ReactiveFormsModule */],
+                __WEBPACK_IMPORTED_MODULE_3__common_tools_ct_common_tools_module__["a" /* CtCommonToolsModule */]
             ],
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_3__tm_time_measurement_component__["a" /* TmTimeMeasurementComponent */],
-                __WEBPACK_IMPORTED_MODULE_5__tm_timer_tm_timer_component__["a" /* TmTimerComponent */],
-                __WEBPACK_IMPORTED_MODULE_4__tm_time_table_tm_time_table_component__["a" /* TmTimeTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_6__tm_settings_tm_settings_component__["a" /* TmSettingsComponent */],
-                __WEBPACK_IMPORTED_MODULE_8__tm_time_table_tm_time_table_time_pipe__["a" /* TmTimeTableTimePipe */],
-                __WEBPACK_IMPORTED_MODULE_9__tm_time_table_tm_time_table_duration_pipe__["a" /* TmTimeTableDurationPipe */]
+                __WEBPACK_IMPORTED_MODULE_4__tm_time_measurement_component__["a" /* TmTimeMeasurementComponent */],
+                __WEBPACK_IMPORTED_MODULE_6__tm_timer_tm_timer_component__["a" /* TmTimerComponent */],
+                __WEBPACK_IMPORTED_MODULE_5__tm_time_table_tm_time_table_component__["a" /* TmTimeTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_7__tm_settings_tm_settings_component__["a" /* TmSettingsComponent */],
+                __WEBPACK_IMPORTED_MODULE_9__tm_time_table_tm_time_table_time_pipe__["a" /* TmTimeTableTimePipe */],
+                __WEBPACK_IMPORTED_MODULE_10__tm_time_table_tm_time_table_duration_pipe__["a" /* TmTimeTableDurationPipe */]
             ],
-            providers: [__WEBPACK_IMPORTED_MODULE_7__tm_time_measurement_service__["a" /* TmTimeMeasurementService */]],
+            providers: [__WEBPACK_IMPORTED_MODULE_8__tm_time_measurement_service__["a" /* TmTimeMeasurementService */]],
             exports: [
-                __WEBPACK_IMPORTED_MODULE_3__tm_time_measurement_component__["a" /* TmTimeMeasurementComponent */]
+                __WEBPACK_IMPORTED_MODULE_4__tm_time_measurement_component__["a" /* TmTimeMeasurementComponent */]
             ]
         })
     ], TmTimeMeasurementModule);
@@ -805,7 +914,7 @@ module.exports = ""
 /***/ "./src/app/time-measurement/tm-timer/tm-timer.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"countdown-timer-display\">\r\n  <span>{{ remainingTimeString | async }}</span>\r\n</div>\r\n\r\n<div class=\"countdown-timer-buttons\">\r\n  <button type=\"button\" class=\"btn btn-lg btn-success\" type=\"button\" (click)=\"handleStartClick($event)\" [attr.disabled]=\"state == 4 ? 'disabled' : null\">Start</button>\r\n  <button type=\"button\" class=\"btn btn-lg btn-warning\" type=\"button\" (click)=\"handlePauseClick($event)\" [attr.disabled]=\"state != 4 ? 'disabled' : null\">Pause</button>\r\n  <button type=\"button\" class=\"btn btn-lg btn-danger\" type=\"button\" (click)=\"handleStopClick($event)\" [attr.disabled]=\"state != 2 && state != 4 ? 'disabled' : null\">Stop</button>\r\n</div>\r\n"
+module.exports = "<div class=\"countdown-timer-display\">\r\n  <span>{{ remainingTimeString | async }}</span>\r\n</div>\r\n\r\n<div class=\"countdown-timer-buttons\">\r\n  <button type=\"button\" class=\"btn btn-lg btn-success\" type=\"button\" (click)=\"handleStartClick($event)\" [attr.disabled]=\"state == 4 ? 'disabled' : null\">{{ state == 1 ? 'Start' : 'Resume' }}</button>\r\n  <button type=\"button\" class=\"btn btn-lg btn-warning\" type=\"button\" (click)=\"handlePauseClick($event)\" [attr.disabled]=\"state != 4 ? 'disabled' : null\">Pause</button>\r\n  <button type=\"button\" class=\"btn btn-lg btn-danger\" type=\"button\" (click)=\"handleStopClick($event)\" [attr.disabled]=\"state != 2 && state != 4 ? 'disabled' : null\">Stop</button>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -818,6 +927,7 @@ module.exports = "<div class=\"countdown-timer-display\">\r\n  <span>{{ remainin
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__settings__ = __webpack_require__("./src/app/time-measurement/settings.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_tools_ct_sound_service__ = __webpack_require__("./src/app/common-tools/ct-sound.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -830,6 +940,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var TimerState;
 (function (TimerState) {
     TimerState[TimerState["stopped"] = 1] = "stopped";
@@ -837,7 +948,8 @@ var TimerState;
     TimerState[TimerState["running"] = 4] = "running";
 })(TimerState || (TimerState = {}));
 var TmTimerComponent = /** @class */ (function () {
-    function TmTimerComponent() {
+    function TmTimerComponent(soundService) {
+        this.soundService = soundService;
         this.timerEnded = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* EventEmitter */]();
         this.timerStarted = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* EventEmitter */]();
         this.timerStopped = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* EventEmitter */]();
@@ -849,6 +961,17 @@ var TmTimerComponent = /** @class */ (function () {
         this.state = TimerState.stopped;
         this._timerHandle = null;
     }
+    Object.defineProperty(TmTimerComponent.prototype, "timerDoneSoundfile", {
+        get: function () {
+            return this._timerDoneSoundfile;
+        },
+        set: function (value) {
+            this._timerDoneSoundfile = value;
+            this.stop();
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(TmTimerComponent.prototype, "type", {
         get: function () {
             return this._type;
@@ -941,10 +1064,15 @@ var TmTimerComponent = /** @class */ (function () {
         }
         if (this.remaining <= 0) {
             this.stop();
+            this.playSound();
             this.timerStopped.emit();
         }
         this.updateRemainingTimeString();
         this.timerTick.emit(this.remaining);
+    };
+    TmTimerComponent.prototype.playSound = function () {
+        if (this.timerDoneSoundfile)
+            this.soundService.playSound(this.timerDoneSoundfile);
     };
     TmTimerComponent.prototype.updateRemainingTimeString = function () {
         var minutes = parseInt((this.remaining / 60) + '');
@@ -977,6 +1105,11 @@ var TmTimerComponent = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* Input */])(),
         __metadata("design:type", Object),
         __metadata("design:paramtypes", [Object])
+    ], TmTimerComponent.prototype, "timerDoneSoundfile", null);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* Input */])(),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
     ], TmTimerComponent.prototype, "type", null);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* Input */])(),
@@ -989,7 +1122,7 @@ var TmTimerComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/time-measurement/tm-timer/tm-timer.component.html"),
             styles: [__webpack_require__("./src/app/time-measurement/tm-timer/tm-timer.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__common_tools_ct_sound_service__["a" /* CtSoundService */]])
     ], TmTimerComponent);
     return TmTimerComponent;
 }());
